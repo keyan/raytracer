@@ -1,1 +1,7 @@
+*.swp
 *.out
+*.swo
+logs/
+*.dSYM/
+.vagrant/
+hello.ppm
