@@ -5,3 +5,4 @@ logs/
 *.dSYM/
 .vagrant/
 hello.ppm
+.DS_Store
