@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+// Used to represent any 3D vector, intended for colors, location, offsets, etc.
 class Vec3 {
 public:
   Vec3() {}
@@ -38,22 +39,10 @@ public:
     e_[2] -= v.e_[2];
     return *this;
   }
-  inline Vec3& operator*=(const Vec3& v) {
-    e_[0] *= v.e_[0];
-    e_[1] *= v.e_[1];
-    e_[2] *= v.e_[2];
-    return *this;
-  }
   inline Vec3& operator*=(const float k) {
     e_[0] *= k;
     e_[1] *= k;
     e_[2] *= k;
-    return *this;
-  }
-  inline Vec3& operator/=(const Vec3& v) {
-    e_[0] /= v.e_[0];
-    e_[1] /= v.e_[1];
-    e_[2] /= v.e_[2];
     return *this;
   }
   inline Vec3& operator/=(const float k) {
@@ -62,19 +51,32 @@ public:
     e_[2] /= k;
     return *this;
   }
+  // // Why are these here? Can't multiply vectors like this?
+  // inline Vec3& operator/=(const Vec3& v) {
+  //   e_[0] /= v.e_[0];
+  //   e_[1] /= v.e_[1];
+  //   e_[2] /= v.e_[2];
+  //   return *this;
+  // }
+  // inline Vec3& operator*=(const Vec3& v) {
+  //   e_[0] *= v.e_[0];
+  //   e_[1] *= v.e_[1];
+  //   e_[2] *= v.e_[2];
+  //   return *this;
+  // }
 
-  inline float length() const {
-    return sqrt(e_[0] * e_[0] + e_[1] * e_[1] + e_[2] * e_[2]);
-  }
+  inline float length() const { return sqrt(square_length()); }
   inline float square_length() const {
     return e_[0] * e_[0] + e_[1] * e_[1] + e_[2] * e_[2];
   }
-
-  inline void make_unit_vector() {
-    float k = 1.0 / sqrt(e_[0] * e_[0] + e_[1] * e_[1] + e_[2] * e_[2]);
-    e_[0] *= k;
-    e_[1] *= k;
-    e_[2] *= k;
+  inline void normalize() {
+    float len = length();
+    if (len > 0) {
+      float k = 1.0 / length();
+      e_[0] *= k;
+      e_[1] *= k;
+      e_[2] *= k;
+    }
   }
 
   float e_[3];
