@@ -51,19 +51,6 @@ public:
     e_[2] /= k;
     return *this;
   }
-  // // Why are these here? Can't multiply vectors like this?
-  // inline Vec3& operator/=(const Vec3& v) {
-  //   e_[0] /= v.e_[0];
-  //   e_[1] /= v.e_[1];
-  //   e_[2] /= v.e_[2];
-  //   return *this;
-  // }
-  // inline Vec3& operator*=(const Vec3& v) {
-  //   e_[0] *= v.e_[0];
-  //   e_[1] *= v.e_[1];
-  //   e_[2] *= v.e_[2];
-  //   return *this;
-  // }
 
   inline float length() const { return sqrt(square_length()); }
   inline float square_length() const {
