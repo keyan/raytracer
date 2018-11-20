@@ -6,3 +6,4 @@ logs/
 .vagrant/
 hello.ppm
 .DS_Store
+output/

@@ -1,6 +1,8 @@
 G++ = g++ -g -std=c++11 -Werror
 
-all: clean build run
+default: build run
+
+all: clean format build run
 
 clean:
 	rm -rf .*swp *.out *.dSYM/ *.ppm .DS_Store

@@ -34,9 +34,7 @@ public:
 // Diffuse reflection, gives "matte" appearance.
 class Lambertian : public Material {
 public:
-  Lambertian(Vec3 const& a) {
-    albedo_ = a;
-  }
+  Lambertian(Vec3 const& a) { albedo_ = a; }
 
   // Diffuse reflections scatter randomly.
   virtual bool scatter(
@@ -60,8 +58,10 @@ public:
 
 class Metal : public Material {
 public:
-  Metal(Vec3 const& a)
-      : albedo_(a) {}
+  Metal(Vec3 const& a, float fuzz)
+      : albedo_(a) {
+    fuzz_ = std::min(fuzz, float(1.0));
+  }
 
   virtual bool scatter(
       Ray const& in_ray,
@@ -69,13 +69,15 @@ public:
       Vec3& attenuation,
       Ray& scatter_ray) const {
     Vec3 reflected = reflect(unit_vector(in_ray.direction_), record.normal_);
-    scatter_ray = Ray(record.point_, reflected);
+    scatter_ray =
+        Ray(record.point_, reflected + fuzz_ * rand_point_in_unit_sphere());
     attenuation = albedo_;
 
     return (dot(scatter_ray.direction_, record.normal_) > 0);
   }
 
   Vec3 albedo_;
+  float fuzz_;
 };
 
 #endif // MATERIAL_H_
