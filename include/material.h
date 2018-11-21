@@ -20,7 +20,36 @@ Vec3 rand_point_in_unit_sphere() {
   return point;
 }
 
-Vec3 reflect(Vec3 const& v, Vec3 const& n) { return v - (2 * dot(v, n) * n); }
+// Compute specular reflection of a incident vector off a surface.
+//
+// The reflection R has the same angle (theta) as the incident vector V (with
+// respect to the normal N). Given this visualization:
+//
+//                 \ V    N    ^ R
+//                  \    |    /
+//                   \   |   /
+//                    \  |  /
+//                     v | /
+//                 ------x---------
+//
+// We can calculate the direction of R by finding a vector in the direction of
+// N, then adding V, so R = (k * N) + V
+//
+// First we find the magnitude of V onto N:
+//
+//    dot(V, N) = ||V|| ||N|| cos(theta)
+//
+// V and N are unit vectors so ||V|| * ||N|| = 1, thus:
+//
+//    dot(V, N) = cos(theta) = ||Projection of V on N||
+//
+// Now scale N by that scalar magnitude to get a vector B, B = dot(V, N) * N
+//
+// B needs to be double the length, and is also pointing the wrong direction:
+//
+//    R = -1 * (2 * B) + V
+//    R = V - (2 * B)
+Vec3 reflect(Vec3 const& V, Vec3 const& N) { return V - (2 * dot(V, N) * N); }
 
 class Material {
 public:
